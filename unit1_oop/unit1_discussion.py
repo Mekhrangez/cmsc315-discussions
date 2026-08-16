@@ -25,7 +25,17 @@ from copy import copy, deepcopy
 # Replace the pass statement with your implementation.
 
 class ParentClass:
-    pass
+    # Class variable shared by all ParentClass and child objects
+    category = "Person"
+
+    def __init__(self, name, age):
+        # Instance variables
+        self.name = name
+        self.age = age
+
+    def display_info(self):
+        """Return basic information about the person."""
+        return f"Name: {self.name}, Age: {self.age}"
 
 
 # TODO 2:
@@ -41,7 +51,34 @@ class ParentClass:
 # Replace the pass statement with your implementation.
 
 class ChildClass(ParentClass):
-    pass
+    # New class variable
+    role = "Student"
+
+    def __init__(self, name, age, student_id, major):
+        # Call the parent constructor
+        super().__init__(name, age)
+
+        # New instance variables
+        self.student_id = student_id
+        self.major = major
+
+        # Student-created extension: nested mutable data
+        self.courses = []
+
+    def display_info(self):
+        """Override the parent method."""
+        return (
+            f"Name: {self.name}, Age: {self.age}, "
+            f"Student ID: {self.student_id}, Major: {self.major}"
+        )
+
+    def add_course(self, course_name):
+        """Add a course to the student's course list."""
+        self.courses.append(course_name)
+
+    def display_courses(self):
+        """Return the student's current course list."""
+        return f"Courses: {self.courses}"
 
 
 # TODO 3:
@@ -57,7 +94,31 @@ class ChildClass(ParentClass):
 
 def demonstrate_namespaces():
     print("\n=== Namespace Demonstration ===")
-    print("TODO: Implement namespace demonstration")
+    
+    # Create two ChildClass objects
+    student1 = ChildClass("Alex", 25, "S1001", "Computer Science")
+    student2 = ChildClass("Jordan", 27, "S1002", "Cybersecurity")
+
+    # Access the class variable through the class itself
+    print("Class variable through class:", ChildClass.role)
+
+    # Access the same class variable through an object
+    print("Class variable through student1:", student1.role)
+
+    # Add an attribute to only student1 after creation
+    student1.favorite_language = "Python"
+
+    # Display the instance namespaces
+    print("\nstudent1 namespace:")
+    print(student1.__dict__)
+
+    print("\nstudent2 namespace:")
+    print(student2.__dict__)
+
+    # Display information about the class namespace
+    print("\nChildClass namespace:")
+    print(ChildClass.__dict__)
+
 
 
 # TODO 4:
@@ -73,7 +134,44 @@ def demonstrate_namespaces():
 
 def demonstrate_copying():
     print("\n=== Copy Demonstration ===")
-    print("TODO: Implement shallow copy and deep copy demonstration")
+
+    # Create an object containing nested mutable data.
+    original = ChildClass("Taylor", 24, "S1003", "Software Development")
+    original.courses = [
+        {"name": "Python", "credits": 3},
+        {"name": "Database Systems", "credits": 3}
+    ]
+
+    # A shallow copy creates a new outer object, but nested objects
+    # are still shared between the original and the copy.
+    shallow_copy = copy(original)
+
+    # A deep copy creates a new outer object and recursively copies
+    # the nested mutable objects as well.
+    deep_copy = deepcopy(original)
+
+    # Modify the original object's nested data.
+    original.courses[0]["name"] = "Advanced Python"
+    original.courses.append({"name": "Cybersecurity", "credits": 3})
+
+    print("Original object:")
+    print(original.__dict__)
+
+    print("\nShallow copy:")
+    print(shallow_copy.__dict__)
+
+    print("\nDeep copy:")
+    print(deep_copy.__dict__)
+
+    print("\nExplanation:")
+    print(
+        "The shallow copy shared the nested courses list with the original, "
+        "so changes to the nested data appeared in both objects."
+    )
+    print(
+        "The deep copy created independent nested objects, so changes to the "
+        "original nested data did not affect the deep copy."
+    )
 
 
 # TODO 5:
@@ -89,9 +187,20 @@ def demonstrate_copying():
 def main():
     print("=== Unit 1 OOP Assignment ===")
 
-    print("\nTODO: Create and test your parent object")
+    # Create and test a ParentClass object
+    print("\nParent object:")
+    parent = ParentClass("Morgan", 30)
+    print(parent.display_info())
 
-    print("\nTODO: Create and test your child object")
+    # Create and test a ChildClass object
+    print("\nChild object:")
+    child = ChildClass("Casey", 22, "S1004", "Computer Science")
+    print(child.display_info())
+
+    # Demonstrate the child-specific method
+    child.add_course("Object-Oriented Programming")
+    print(child.display_courses())
+
 
     demonstrate_namespaces()
     demonstrate_copying()
