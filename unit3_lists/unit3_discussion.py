@@ -81,20 +81,20 @@ def main():
 
     print("\n=== INSERTION TESTS ===")
     # Create the original list that will be used for insertion tests.
-    numbers = [10, 20, 30, 40]
-    print("Original list:", numbers)
+    playlist = ["Song A", "Song B", "Song C", "Song D"]
+    print("Original playlist:", playlist)
 
-    # Insert a value at the beginning. Existing elements shift to the right.
-    insert_at(numbers, 0, 5)
-    print("After inserting 5 at the beginning:", numbers)
+    # Insert at the beginning.
+    insert_at(playlist, 0, "New Song")
+    print("After inserting at the beginning:", playlist)
 
-    # Insert a value in the middle. Elements from that position shift right.
-    insert_at(numbers, 3, 25)
-    print("After inserting 25 in the middle:", numbers)
+    # Insert in the middle.
+    insert_at(playlist, 3, "Middle Song")
+    print("After inserting in the middle:", playlist)
 
-    # Insert a value at the end. No existing elements need to be shifted.
-    insert_at(numbers, len(numbers), 50)
-    print("After inserting 50 at the end:", numbers)
+    # Insert at the end.
+    insert_at(playlist, len(playlist), "Last Song")
+    print("After inserting at the end:", playlist)
 
     # ===============================
     # TODO (Student): DELETION TESTS
@@ -110,21 +110,22 @@ def main():
     # 4. Use comments to clearly explain what is happening in the output.
 
     print("\n=== DELETION TESTS ===")
+
     # Delete the first item. Remaining elements shift one position to the left.
-    removed = delete_at(numbers, 0)
+    removed = delete_at(playlist, 0)
     print("Removed from the beginning:", removed)
-    print("Updated list:", numbers)
+    print("Updated playlist:", playlist)
 
-    # Delete an item from the middle of the list.
-    middle_index = len(numbers) // 2
-    removed = delete_at(numbers, middle_index)
+    # Delete from the middle.
+    middle_index = len(playlist) // 2
+    removed = delete_at(playlist, middle_index)
     print("Removed from the middle:", removed)
-    print("Updated list:", numbers)
+    print("Updated playlist:", playlist)
 
-    # Delete the final item. No elements after it need to be shifted.
-    removed = delete_at(numbers, len(numbers) - 1)
+    # Delete from the end.
+    removed = delete_at(playlist, len(playlist) - 1)
     print("Removed from the end:", removed)
-    print("Updated list:", numbers)
+    print("Updated playlist:", playlist)
 
     # ===============================
     # TODO (Student): SEARCH TESTS
@@ -137,23 +138,24 @@ def main():
     # 4. Use comments to explain each step.
 
     print("\n=== SEARCH TESTS ===")
+
     # Search for a value that exists in the current list.
-    value_to_find = 30
-    result = search_value(numbers, value_to_find)
+     value_to_find = "Song B"
+    result = search_value(playlist, value_to_find)
 
     if result != -1:
-        print(f"Value {value_to_find} was found at index {result}.")
+        print(f"{value_to_find} was found at index {result}.")
     else:
-        print(f"Value {value_to_find} was not found.")
+        print(f"{value_to_find} was not found.")
 
-    # Search for a value that does not exist.
-    missing_value = 100
-    result = search_value(numbers, missing_value)
+    # Search for a song that does not exist.
+    missing_value = "Unknown Song"
+    result = search_value(playlist, missing_value)
 
     if result != -1:
-        print(f"Value {missing_value} was found at index {result}.")
+        print(f"{missing_value} was found at index {result}.")
     else:
-        print(f"Value {missing_value} was not found.")
+        print(f"{missing_value} was not found.")
 
     # ===============================
     # TODO (Student): EDGE CASES
@@ -169,23 +171,24 @@ def main():
     # - Use comments to explain each edge case.
 
     print("\n=== EDGE CASES ===")
+
      # Edge case 1: Attempt to delete using an invalid index.
-    invalid_delete = delete_at(numbers, 100)
-    print("Attempt to delete using invalid index 100:", invalid_delete)
+    invalid_delete = delete_at(playlist, 100)
+    print("Invalid delete:", invalid_delete)
 
-    # Edge case 2: Insert a value into an empty list.
+    # Edge case 2: Insert into an empty list.
     empty_list = []
-    insert_at(empty_list, 0, 99)
-    print("After inserting 99 into an empty list:", empty_list)
+    insert_at(empty_list, 0, "New Song")
+    print("Insert into empty list:", empty_list)
 
-    # Edge case 3: Attempt to delete from an empty list.
+    # Edge case 3: Delete from an empty list.
     empty_list = []
     empty_delete = delete_at(empty_list, 0)
-    print("Attempt to delete from an empty list:", empty_delete)
+    print("Delete from empty list:", empty_delete)
 
-    # Edge case 4: Search for a missing value in an empty list.
-    empty_search = search_value(empty_list, 10)
-    print("Search for 10 in an empty list:", empty_search)
+    # Edge case 4: Search an empty list.
+    empty_search = search_value(empty_list, "Song A")
+    print("Search empty list:", empty_search)
 
 
 if __name__ == "__main__":
