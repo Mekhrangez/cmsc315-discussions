@@ -80,6 +80,7 @@ def main():
     # 5. Use comments to explain each step in the implementation.
 
     print("\n=== INSERTION TESTS ===")
+
     # Create the original list that will be used for insertion tests.
     playlist = ["Song A", "Song B", "Song C", "Song D"]
     print("Original playlist:", playlist)
