@@ -17,14 +17,15 @@ class Node:
         # TODO (Student):
         # Store the node's value and initialize references
         # to the left and right child nodes.
-        pass
-
-
+        self.value = value
+        self.left = None
+        self.right = None
+        
 class BST:
     def __init__(self):
         # TODO (Student):
         # Initialize an empty Binary Search Tree.
-        pass
+        self.root = None
 
     def insert(self, value):
         """
@@ -37,7 +38,8 @@ class BST:
           whether a value is smaller or larger than the
           current node.
         """
-        pass
+        # location for the new value in the tree.
+        self.root = self._insert_recursive(self.root, value)
 
     def _insert_recursive(self, node, value):
         """
@@ -50,7 +52,20 @@ class BST:
         - Insert larger values into the right subtree.
         - Return the updated node reference.
         """
-        pass
+         # When an empty position is found, create a new node.
+        if node is None:
+            return Node(value)
+        if value < node.value:
+            node.left = self._insert_recursive(node.left, value)
+
+        elif value > node.value:
+            node.right = self._insert_recursive(node.right, value)
+
+        else:
+            # Duplicate values are ignored to keep each value unique.
+            print(f"Duplicate value {value} was not inserted.")
+
+        return node
 
     def search(self, value):
         """
@@ -63,14 +78,27 @@ class BST:
         - Add comments explaining why BST search is often
           more efficient than linear search.
         """
-        pass
+         return self._search_recursive(self.root, value)
 
     def _search_recursive(self, node, value):
         """
         TODO (Student):
         Implement recursive BST search.
         """
-        pass
+        # If the current node is empty, the value does not exist.
+        if node is None:
+            return False
+
+        # The value was found.
+        if value == node.value:
+            return True
+
+        # Search only the left subtree if the value is smaller.
+        if value < node.value:
+            return self._search_recursive(node.left, value)
+
+        # Otherwise, search the right subtree.
+        return self._search_recursive(node.right, value)
 
     def inorder(self):
         """
@@ -78,7 +106,11 @@ class BST:
         Return a list containing the values from an
         in-order traversal.
         """
-        pass
+        values = []
+        self._inorder_recursive(self.root, values)
+        return values
+
+    def _inorder_recursive(self, node, values):
 
     def _inorder_recursive(self, node, values):
         """
@@ -92,7 +124,21 @@ class BST:
         - Add comments explaining why this traversal
           produces sorted output in a BST.
         """
-        pass
+          if node is not None:
+
+            # Visit the left subtree first because it contains
+            # values smaller than the current node.
+            self._inorder_recursive(node.left, values)
+
+            # Visit the current node.
+            values.append(node.value)
+
+            # Visit the right subtree because it contains
+            # values larger than the current node.
+            self._inorder_recursive(node.right, values)
+
+            # BST values are ordered left < node < right,
+            # in-order traversal naturally produces sorted output.
 
 
 def main():
@@ -111,7 +157,19 @@ def main():
     # 5. Use comments to explain why a BST is efficient at reducing search space for each step.
 
     print("\n=== TREE CONSTRUCTION ===")
-    print("TODO: Create a BST and insert multiple values.")
+     bst = BST()
+
+    # These values create nodes on both the left and right sides
+    # of the tree. The BST structure reduces search space because
+    # each comparison eliminates one entire subtree.
+    values = [50, 30, 70, 20, 40, 60, 80, 10, 35]
+
+    print("Values being inserted:", values)
+
+    for value in values:
+        bst.insert(value)
+
+    print("Tree construction completed.")
 
     # ===============================
     # TODO (Student): IN-ORDER TRAVERSAL
@@ -124,7 +182,15 @@ def main():
     #    sorted output in a BST.
 
     print("\n=== IN-ORDER TRAVERSAL ===")
-    print("TODO: Display and explain traversal results.")
+    # In-order traversal visits left subtree, current node,
+    # and then right subtree. Since BST values follow the
+    # left < node < right rule, the result is sorted.
+    sorted_values = bst.inorder()
+
+    print("In-order traversal:", sorted_values)
+    print("The traversal produces sorted values because smaller")
+    print("values are stored to the left and larger values to the right.")
+
 
     # ===============================
     # TODO (Student): SEARCH TESTS
@@ -136,7 +202,18 @@ def main():
     # 3. Use comments to clearly explain the results.
 
     print("\n=== SEARCH TESTS ===")
-    print("TODO: Demonstrate BST searching.")
+    search_values = [20, 60, 25, 90]
+
+    # The first two values exist in the tree, while the last
+    # two values do not. The search follows only one branch
+    # at each comparison instead of checking every value.
+    for value in search_values:
+        result = bst.search(value)
+
+        if result:
+            print(f"Search for {value}: Found")
+        else:
+            print(f"Search for {value}: Not Found")
 
     # ===============================
     # TODO (Student): EDGE CASES
@@ -153,9 +230,17 @@ def main():
     # Use comments to explain what happens and why.
 
     print("\n=== EDGE CASES ===")
-    print("TODO: Demonstrate and explain an edge case.")
+   # Empty tree demonstration.
+    empty_bst = BST()
 
+    print("Empty tree traversal:", empty_bst.inorder())
+    print("Search for 10 in empty tree:", empty_bst.search(10))
 
+    # Duplicate values are ignored so the tree keeps unique values.
+    print("\nTesting duplicate insertion:")
+    bst.insert(50)
+
+    print("Traversal after duplicate attempt:", bst.inorder())
 
 if __name__ == "__main__":
     main()
