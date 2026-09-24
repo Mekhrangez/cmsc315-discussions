@@ -28,8 +28,18 @@ def bubble_sort(lst):
     - Add meaningful comments.
 
     """
-    pass
+    result = lst.copy()
+    for i in range(len(result)):
+        swapped = False
 
+        for j in range(0, len(result) - i - 1):
+            if result[j] > result[j + 1]:
+                result[j], result[j + 1] = result[j + 1], result[j]
+                swapped = True
+        if not swapped:
+            break
+
+    return result
 
 def merge_sort(lst):
     """
@@ -45,7 +55,17 @@ def merge_sort(lst):
     - Add meaningful comments.
 
     """
-    pass
+     if len(lst) <= 1:
+        return lst.copy()
+
+    middle = len(lst) // 2
+    left = lst[:middle]
+    right = lst[middle:]
+
+    left_sorted = merge_sort(left)
+    right_sorted = merge_sort(right)
+
+    return merge(left_sorted, right_sorted)
 
 
 def merge(left, right):
@@ -60,7 +80,23 @@ def merge(left, right):
     - Return the merged sorted list.
     - Add meaningful comments.
     """
-    pass
+    result = []
+    left_index = 0
+    right_index = 0
+
+    while left_index < len(left) and right_index < len(right):
+        if left[left_index] <= right[right_index]:
+            result.append(left[left_index])
+            left_index += 1
+        else:
+            result.append(right[right_index])
+            right_index += 1
+
+    result.extend(left[left_index:])
+
+    result.extend(right[right_index:])
+
+    return result
 
 
 def main():
@@ -78,7 +114,16 @@ def main():
     # 5. Clearly label and display all results.
 
     print("\n=== DATASET #1 ===")
-    print("TODO: Create an unsorted dataset and test both sorting algorithms.")
+    dataset1 = [42, 17, 8, 99, 23, 51, 4, 76]
+
+    print("Original dataset:", dataset1)
+
+    bubble_result1 = bubble_sort(dataset1)
+    merge_result1 = merge_sort(dataset1)
+
+    print("Bubble Sort result:", bubble_result1)
+    print("Merge Sort result:", merge_result1)
+    print("Results match:", bubble_result1 == merge_result1)
 
     # ===============================
     # TODO (Student): DATASET #2
@@ -91,7 +136,16 @@ def main():
     # 4. Compare the results.
 
     print("\n=== DATASET #2 ===")
-    print("TODO: Create a second dataset and compare sorting results.")
+    dataset2 = [15, 3, 27, 3, 42, 18, 9, 30, 15]
+
+    print("Original dataset:", dataset2)
+
+    bubble_result2 = bubble_sort(dataset2)
+    merge_result2 = merge_sort(dataset2)
+
+    print("Bubble Sort result:", bubble_result2)
+    print("Merge Sort result:", merge_result2)
+    print("Results match:", bubble_result2 == merge_result2)
 
     # ===============================
     # TODO (Student): EDGE CASES
@@ -109,7 +163,37 @@ def main():
     # Explain what happens in each case.
 
     print("\n=== EDGE CASE TESTS ===")
-    print("TODO: Demonstrate and explain edge cases.")
+    empty_list = []
+    print("\n1. Empty list:")
+    print("Original:", empty_list)
+    print("Bubble Sort:", bubble_sort(empty_list))
+    print("Merge Sort:", merge_sort(empty_list))
+    print("Explanation: Both algorithms return an empty list without errors.")
+
+    # Edge case 2: Already sorted list.
+    sorted_list = [1, 2, 3, 4, 5]
+    print("\n2. Already sorted list:")
+    print("Original:", sorted_list)
+    print("Bubble Sort:", bubble_sort(sorted_list))
+    print("Merge Sort:", merge_sort(sorted_list))
+    print("Explanation: Both algorithms keep the values in sorted order. "
+          "Bubble Sort can stop early because no swaps are needed.")
+
+    # Edge case 3: Duplicate values.
+    duplicate_list = [5, 2, 5, 1, 2, 5]
+    print("\n3. List with duplicate values:")
+    print("Original:", duplicate_list)
+    print("Bubble Sort:", bubble_sort(duplicate_list))
+    print("Merge Sort:", merge_sort(duplicate_list))
+    print("Explanation: Both algorithms correctly preserve all duplicate values.")
+
+    # Edge case 4: Single-element list.
+    single_list = [10]
+    print("\n4. Single-element list:")
+    print("Original:", single_list)
+    print("Bubble Sort:", bubble_sort(single_list))
+    print("Merge Sort:", merge_sort(single_list))
+    print("Explanation: A single-element list is already sorted.")
 
 
 
